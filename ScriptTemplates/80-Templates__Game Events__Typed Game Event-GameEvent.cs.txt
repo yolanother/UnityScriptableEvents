@@ -1,0 +1,8 @@
+﻿using DoubTech.ScriptableEvents;
+using UnityEngine;
+
+namespace #NAMESPACE#
+{
+    [CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Game Events/#SUBTYPE2#")]
+    public class #SCRIPTNAME# : GameEventT<#SUBTYPE2#> {}
+}

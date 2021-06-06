@@ -1,0 +1,7 @@
+﻿using DoubTech.ScriptableEvents;
+using UnityEngine;
+
+namespace #NAMESPACE#
+{
+    public class #SCRIPTNAME# : GameEventListenerT<#SUBTYPE3#> {}
+}
