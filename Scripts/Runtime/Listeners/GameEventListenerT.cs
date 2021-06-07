@@ -1,33 +1,38 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents
 {
-    public class GameEventListenerT<T> : MonoBehaviour
+    public abstract class GameEventListenerT<T, GAMEEVENT, UNITYEVENT> : MonoBehaviour,
+        IGameEventListenerT<T> where UNITYEVENT : UnityEvent<T> where GAMEEVENT: GameEventT<T>
     {
-        [SerializeField] private GameEventT<T> gameEvent;
-        [SerializeField] private UnityEvent<T> response = new UnityEvent<T>();
+        public abstract GAMEEVENT GameEvent { get; }
+        public abstract UNITYEVENT OnEvent { get; }
 
-        public UnityEvent<T> OnEvent => response;
-
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
-            gameEvent.RegisterListener(this);
+            GameEvent.RegisterListener(this);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
-            gameEvent.RegisterListener(this);
-        }
-
-        public void OnEventRaised(T t)
-        {
-            response?.Invoke(t);
+            GameEvent.RegisterListener(this);
         }
 
         public void Invoke(T t)
         {
-            gameEvent.Invoke(t);
+            GameEvent.Invoke(t);
         }
+
+        public void OnEventRaised(T t)
+        {
+            OnEvent?.Invoke(t);
+        }
+    }
+
+    public interface IGameEventListenerT<T>
+    {
+        void OnEventRaised(T a);
     }
 }

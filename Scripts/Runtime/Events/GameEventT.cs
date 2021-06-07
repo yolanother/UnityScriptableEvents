@@ -6,7 +6,7 @@ namespace DoubTech.ScriptableEvents
 {
     public class GameEventT<T> : ScriptableObject
     {
-        private List<GameEventListenerT<T>> listeners = new List<GameEventListenerT<T>>();
+        private List<IGameEventListenerT<T>> listeners = new List<IGameEventListenerT<T>>();
         private List<Action<T>> actionListeners = new List<Action<T>>();
 
         public void Invoke(T a)
@@ -30,7 +30,7 @@ namespace DoubTech.ScriptableEvents
             actionListeners.Remove(listener);
         }
 
-        public void RegisterListener(GameEventListenerT<T> listener, bool allowDuplicate = false)
+        public void RegisterListener(IGameEventListenerT<T> listener, bool allowDuplicate = false)
         {
             if (allowDuplicate || !listeners.Contains(listener))
             {
@@ -38,7 +38,7 @@ namespace DoubTech.ScriptableEvents
             }
         }
 
-        public void UnregisterListener(GameEventListenerT<T> listener)
+        public void UnregisterListener(IGameEventListenerT<T> listener)
         {
             listeners.Remove(listener);
         }

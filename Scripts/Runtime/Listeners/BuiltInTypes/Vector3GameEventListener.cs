@@ -1,7 +1,23 @@
-using DoubTech.ScriptableEvents;
+using System;
+using DoubTech.ScriptableEvents.BuiltinTypes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 {
-    public class Vector3GameEventListener : GameEventListenerT<Vector3> {}
+    [Serializable]
+    public class
+        Vector3GameEventListener : GameEventListenerT<Vector3, Vector3Event, Vector3UnityEvent>
+    {
+        [SerializeField] private Vector3Event gameEvent;
+        [SerializeField] private Vector3UnityEvent onEvent = new Vector3UnityEvent();
+
+        public override Vector3Event GameEvent => gameEvent;
+        public override Vector3UnityEvent OnEvent => OnEvent;
+    }
+
+    [Serializable]
+    public class Vector3UnityEvent : UnityEvent<Vector3>
+    {
+    }
 }
