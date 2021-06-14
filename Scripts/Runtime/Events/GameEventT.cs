@@ -17,6 +17,11 @@ namespace DoubTech.ScriptableEvents
             }
         }
 
+        public void AddListener(Action<T> listener, bool allowDuplicate = false)
+        {
+            RegisterListener(listener, allowDuplicate);
+        }
+
         public void RegisterListener(Action<T> listener, bool allowDuplicate = false)
         {
             if (allowDuplicate || !actionListeners.Contains(listener))
@@ -30,6 +35,11 @@ namespace DoubTech.ScriptableEvents
             actionListeners.Remove(listener);
         }
 
+        public void RemoveListener(Action<T> listener)
+        {
+            UnregisterListener(listener);
+        }
+
         public void RegisterListener(IGameEventListenerT<T> listener, bool allowDuplicate = false)
         {
             if (allowDuplicate || !listeners.Contains(listener))
@@ -41,6 +51,16 @@ namespace DoubTech.ScriptableEvents
         public void UnregisterListener(IGameEventListenerT<T> listener)
         {
             listeners.Remove(listener);
+        }
+
+        public void AddListener(IGameEventListenerT<T> listener, bool allowDuplicate = false)
+        {
+            RegisterListener(listener, allowDuplicate);
+        }
+
+        public void RemoveListener(IGameEventListenerT<T> listener)
+        {
+            UnregisterListener(listener);
         }
     }
 }
