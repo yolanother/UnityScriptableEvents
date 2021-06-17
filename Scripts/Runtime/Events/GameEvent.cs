@@ -25,13 +25,23 @@ namespace DoubTech.ScriptableEvents
 
         public void RegisterListener(Action listener, bool allowDuplicate = false)
         {
+            AddListener(listener, allowDuplicate);
+        }
+
+        public void UnregisterListener(Action listener)
+        {
+            RemoveListener(listener);
+        }
+
+        public void AddListener(Action listener, bool allowDuplicate = false)
+        {
             if (allowDuplicate || !actionListeners.Contains(listener))
             {
                 actionListeners.Insert(0, listener);
             }
         }
 
-        public void UnregisterListener(Action listener)
+        public void RemoveListener(Action listener)
         {
             actionListeners.Remove(listener);
         }
