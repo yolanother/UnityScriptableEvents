@@ -5,13 +5,12 @@ using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 {
-    public class
-        BoolGameEventListener : GameEventListenerT<bool, BoolEvent, BoolUnityEvent>
+    public class BoolGameEventListener : GameEventListenerT<bool, BoolGameEvent, BoolUnityEvent>
     {
-        [SerializeField] private BoolEvent gameEvent;
+        [SerializeField] private BoolGameEvent gameEvent;
         [SerializeField] private BoolUnityEvent onEvent = new BoolUnityEvent();
 
-        public override BoolEvent GameEvent => gameEvent;
+        public override BoolGameEvent GameEvent => gameEvent;
         public override BoolUnityEvent OnEvent => OnEvent;
     }
 

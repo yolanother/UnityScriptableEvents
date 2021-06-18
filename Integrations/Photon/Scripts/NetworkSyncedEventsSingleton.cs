@@ -1,5 +1,3 @@
-using Sirenix.OdinInspector.Editor.Drawers;
-
 namespace DoubTech.ScriptableEvents.Integrations.Photon
 {
     public class NetworkSyncedEventsSingleton : NetworkSyncedEvents

@@ -5,5 +5,5 @@ namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
     [CreateAssetMenu(fileName = "BoolEvent", menuName = "DoubTech/Game Events/Bool")]
     [Serializable]
-    public class BoolEvent : GameEventT<bool> {}
+    public class BoolGameEvent : GameEventT<bool> {}
 }

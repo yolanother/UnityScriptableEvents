@@ -6,13 +6,12 @@ using UnityEngine.Events;
 namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 {
     [Serializable]
-    public class
-        FloatGameEventListener : GameEventListenerT<float, FloatEvent, FloatUnityEvent>
+    public class FloatGameEventListener : GameEventListenerT<float, FloatGameEvent, FloatUnityEvent>
     {
-        [SerializeField] private FloatEvent gameEvent;
+        [SerializeField] private FloatGameEvent gameEvent;
         [SerializeField] private FloatUnityEvent onEvent = new FloatUnityEvent();
 
-        public override FloatEvent GameEvent => gameEvent;
+        public override FloatGameEvent GameEvent => gameEvent;
         public override FloatUnityEvent OnEvent => OnEvent;
     }
 
