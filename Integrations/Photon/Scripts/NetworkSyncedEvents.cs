@@ -19,17 +19,21 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
         [SerializeField] public GameEventSet gameEventSet;
 
 #if !PUN_2_OR_NEWER
-        protected virtual void OnEnable() {}
-        protected virtual void OnDisable() {}
+        public virtual void OnEnable() {}
+        public virtual void OnDisable() {}
 #endif
 
+#if PUN_2_OR_NEWER
         [PunRPC]
+#endif
         public void OnPostEvent(string eventType)
         {
             gameEventSet[eventType].Invoke();
         }
 
+#if PUN_2_OR_NEWER
         [PunRPC]
+#endif
         public void OnPostEventT(string eventType, byte[] data)
         {
             gameEventSet[eventType].Invoke(Deserialize(data));
@@ -46,6 +50,8 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
                     e.name,
                     Serialize(data));
             }
+#else
+            OnPostEventT(e.name, Serialize(data));
 #endif
         }
 
@@ -56,6 +62,8 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             {
                 PhotonView.Get(this).RPC("OnPostEvent", RpcTarget.All, e.name);
             }
+#else
+            OnPostEvent(e.name);
 #endif
         }
 
@@ -66,6 +74,8 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             {
                 PhotonView.Get(this).RPC("OnPostEvent", RpcTarget.All, e);
             }
+#else
+            OnPostEvent(e);
 #endif
         }
 
@@ -77,9 +87,11 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
                 PhotonView.Get(this).RPC(
                     "OnPostEvent",
                     RpcTarget.All,
-        e,
+                    e,
                     Serialize(data));
             }
+#else
+            OnPostEvent(e);
 #endif
         }
 
