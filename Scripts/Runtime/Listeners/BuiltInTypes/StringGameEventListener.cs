@@ -13,7 +13,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
         [SerializeField] private StringUnityEvent onEvent = new StringUnityEvent();
 
         public override StringGameEvent GameEvent => gameEvent;
-        public override StringUnityEvent OnEvent => OnEvent;
+        public override StringUnityEvent OnEvent => onEvent;
     }
 
     [Serializable]

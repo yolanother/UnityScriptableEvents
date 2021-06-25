@@ -12,7 +12,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
         [SerializeField] private FloatUnityEvent onEvent = new FloatUnityEvent();
 
         public override FloatGameEvent GameEvent => gameEvent;
-        public override FloatUnityEvent OnEvent => OnEvent;
+        public override FloatUnityEvent OnEvent => onEvent;
     }
 
     [Serializable]

@@ -12,7 +12,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
         [SerializeField] private Vector3UnityEvent onEvent = new Vector3UnityEvent();
 
         public override Vector3GameEvent GameEvent => gameEvent;
-        public override Vector3UnityEvent OnEvent => OnEvent;
+        public override Vector3UnityEvent OnEvent => onEvent;
     }
 
     [Serializable]

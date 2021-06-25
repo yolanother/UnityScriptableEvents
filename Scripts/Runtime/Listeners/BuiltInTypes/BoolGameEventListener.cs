@@ -11,7 +11,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
         [SerializeField] private BoolUnityEvent onEvent = new BoolUnityEvent();
 
         public override BoolGameEvent GameEvent => gameEvent;
-        public override BoolUnityEvent OnEvent => OnEvent;
+        public override BoolUnityEvent OnEvent => onEvent;
     }
 
     [Serializable]
