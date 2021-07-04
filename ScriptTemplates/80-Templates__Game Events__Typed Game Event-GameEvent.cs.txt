@@ -1,8 +1,13 @@
-﻿using DoubTech.ScriptableEvents;
+﻿using System;
 using UnityEngine;
 
 namespace #NAMESPACE#
 {
-    [CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Game Events/#SUBTYPE2#")]
-    public class #SCRIPTNAME# : GameEventT<#SUBTYPE2#> {}
+
+    [CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Game Events/#SUBTYPE2# Event")]
+    [Serializable]
+    public class #SCRIPTNAME# : GameEventT<#SUBTYPE2#>
+    {
+
+    }
 }

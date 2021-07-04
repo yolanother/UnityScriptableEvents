@@ -1,7 +1,23 @@
-﻿using DoubTech.ScriptableEvents;
+﻿using System;
+using DoubTech.ScriptableEvents;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace #NAMESPACE#
 {
-    public class #SCRIPTNAME# : GameEventListenerT<#SUBTYPE3#> {}
+    [Serializable]
+    public class
+        #SCRIPTNAME# : GameEventListenerT<#SUBTYPE3#, #SUBTYPE3#Event, #SUBTYPE3#UnityEvent>
+    {
+        [SerializeField] private #SUBTYPE3#Event gameEvent;
+        [SerializeField] private #SUBTYPE3#UnityEvent onEvent = new #SUBTYPE3#UnityEvent();
+
+        public override #SUBTYPE3#Event GameEvent => gameEvent;
+        public override #SUBTYPE3#UnityEvent OnEvent => onEvent;
+    }
+
+    [Serializable]
+    public class #SUBTYPE3#UnityEvent : UnityEvent<#SUBTYPE3#>
+    {
+    }
 }
