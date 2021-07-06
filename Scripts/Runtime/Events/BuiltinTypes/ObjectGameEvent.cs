@@ -5,9 +5,9 @@ using Object = UnityEngine.Object;
 namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
 
-    [CreateAssetMenu(fileName = "ObjectEvent", menuName = "DoubTech/Game Events/Object Event")]
+    [CreateAssetMenu(fileName = "ObjectGameEvent", menuName = "DoubTech/Game Events/Object Event")]
     [Serializable]
-    public class ObjectEvent : GameEventT<Object>
+    public class ObjectGameEvent : GameEventT<Object>
     {
 
     }
