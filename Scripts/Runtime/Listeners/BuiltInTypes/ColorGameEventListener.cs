@@ -6,7 +6,7 @@ namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
     [Serializable]
     public class
-        ColorGameEventListener : GameEventListenerT<Color, ColorGameEvent, ColorUnityEvent>
+        ColorGameEventListener : GameEventListener<Color, ColorGameEvent, ColorUnityEvent>
     {
         [SerializeField] private ColorGameEvent gameEvent;
         [SerializeField] private ColorUnityEvent onEvent = new ColorUnityEvent();

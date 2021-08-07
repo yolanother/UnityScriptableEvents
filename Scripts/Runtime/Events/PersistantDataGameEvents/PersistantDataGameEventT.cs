@@ -2,7 +2,7 @@
 
 namespace DoubTech.ScriptableEvents.PersistantDataGameEvents
 {
-    public class PersistantDataGameEventT<T> : GameEventT<T>
+    public class PersistantDataGameEvent<T> : GameEvent<T>
     {
         private bool hasData = false;
         private T lastData;

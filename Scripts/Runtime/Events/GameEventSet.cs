@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace DoubTech.ScriptableEvents
 {
+    [CreateAssetMenu(fileName = "GameEventSet", menuName = "DoubTech/Game Events/Game Event Set")]
     public class GameEventSet : ScriptableObject
     {
         public BaseGameEvent[] events;

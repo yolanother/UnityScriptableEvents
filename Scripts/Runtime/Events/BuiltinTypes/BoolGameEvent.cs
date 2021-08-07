@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
-    [CreateAssetMenu(fileName = "BoolEvent", menuName = "DoubTech/Game Events/Bool")]
+    [CreateAssetMenu(fileName = "BoolEvent", menuName = "DoubTech/Game Events/Built In Types/Bool")]
     [Serializable]
-    public class BoolGameEvent : GameEventT<bool> {}
+    public class BoolGameEvent : GameEvent<bool> {}
 }

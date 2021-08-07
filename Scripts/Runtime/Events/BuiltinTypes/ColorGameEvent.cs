@@ -4,9 +4,9 @@ using UnityEngine;
 namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
 
-    [CreateAssetMenu(fileName = "ColorGameEvent", menuName = "DoubTech/Game Events/Color Game Event")]
+    [CreateAssetMenu(fileName = "ColorGameEvent", menuName = "DoubTech/Game Events/Built In Types/Color Game Event")]
     [Serializable]
-    public class ColorGameEvent : GameEventT<Color>
+    public class ColorGameEvent : GameEvent<Color>
     {
 
     }

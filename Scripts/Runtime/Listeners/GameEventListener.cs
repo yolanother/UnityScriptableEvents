@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents
 {
+    [Serializable]
     public class GameEventListener : MonoBehaviour
     {
         [SerializeField] private GameEvent gameEvent;

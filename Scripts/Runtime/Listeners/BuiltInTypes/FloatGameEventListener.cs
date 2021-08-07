@@ -6,7 +6,7 @@ using UnityEngine.Events;
 namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 {
     [Serializable]
-    public class FloatGameEventListener : GameEventListenerT<float, FloatGameEvent, FloatUnityEvent>
+    public class FloatGameEventListener : GameEventListener<float, FloatGameEvent, FloatUnityEvent>
     {
         [SerializeField] private FloatGameEvent gameEvent;
         [SerializeField] private FloatUnityEvent onEvent = new FloatUnityEvent();

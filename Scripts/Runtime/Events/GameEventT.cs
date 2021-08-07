@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DoubTech.ScriptableEvents
 {
-    public class GameEventT<T> : BaseGameEvent
+    public class GameEvent<T> : BaseGameEvent
     {
         private List<IGameEventListenerT<T>> listeners = new List<IGameEventListenerT<T>>();
         private List<Action<T>> actionListeners = new List<Action<T>>();

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 {
-    public class BoolGameEventListener : GameEventListenerT<bool, BoolGameEvent, BoolUnityEvent>
+    public class BoolGameEventListener : GameEventListener<bool, BoolGameEvent, BoolUnityEvent>
     {
         [SerializeField] private BoolGameEvent gameEvent;
         [SerializeField] private BoolUnityEvent onEvent = new BoolUnityEvent();

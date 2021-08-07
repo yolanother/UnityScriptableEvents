@@ -7,7 +7,7 @@ namespace DoubTech.ScriptableEvents
 {
     public class GameEvent<T1, T2> : BaseGameEvent
     {
-        private List<GameEventListener<T1, T2>> listeners = new List<GameEventListener<T1, T2>>();
+        private List<IGameEventListener<T1, T2>> listeners = new List<IGameEventListener<T1, T2>>();
         private List<Action<T1, T2>> actionListeners = new List<Action<T1, T2>>();
 
         public void Invoke(T1 a, T2 b)
@@ -28,7 +28,7 @@ namespace DoubTech.ScriptableEvents
             Invoke((T1) a, (T2) b);
         }
 
-        public void RegisterListener(GameEventListener<T1, T2> listener, bool allowDuplicate = false)
+        public void RegisterListener(IGameEventListener<T1, T2> listener, bool allowDuplicate = false)
         {
             if (allowDuplicate || !listeners.Contains(listener))
             {
@@ -36,7 +36,7 @@ namespace DoubTech.ScriptableEvents
             }
         }
 
-        public void UnregisterListener(GameEventListener<T1, T2> listener)
+        public void UnregisterListener(IGameEventListener<T1, T2> listener)
         {
             listeners.Remove(listener);
         }
@@ -52,27 +52,6 @@ namespace DoubTech.ScriptableEvents
         public void RemoveListener(Action<T1, T2> listener)
         {
             actionListeners.Remove(listener);
-        }
-    }
-
-    public class GameEventListener<T1, T2> : MonoBehaviour
-    {
-        [SerializeField] private GameEvent<T1, T2> gameEvent;
-        [SerializeField] private UnityEvent<T1, T2> response;
-
-        private void OnEnable()
-        {
-            gameEvent.RegisterListener(this);
-        }
-
-        private void OnDisable()
-        {
-            gameEvent.RegisterListener(this);
-        }
-
-        public void OnEventRaised(T1 a, T2 b)
-        {
-            response?.Invoke(a, b);
         }
     }
 }

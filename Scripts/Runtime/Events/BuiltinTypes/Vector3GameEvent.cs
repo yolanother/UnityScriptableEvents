@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
-    [CreateAssetMenu(fileName = "Vector3Event", menuName = "DoubTech/Game Events/Vector3 Event")]
+    [CreateAssetMenu(fileName = "Vector3Event", menuName = "DoubTech/Game Events/Built In Types/Vector3 Event")]
     [Serializable]
-    public class Vector3GameEvent : GameEventT<Vector3>
+    public class Vector3GameEvent : GameEvent<Vector3>
     {
 
     }

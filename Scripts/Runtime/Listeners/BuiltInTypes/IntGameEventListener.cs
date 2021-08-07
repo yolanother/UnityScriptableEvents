@@ -7,7 +7,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 {
     [Serializable]
     public class
-        IntGameEventListener : GameEventListenerT<int, IntGameEvent, IntUnityEvent>
+        IntGameEventListener : GameEventListener<int, IntGameEvent, IntUnityEvent>
     {
         [SerializeField] private IntGameEvent gameEvent;
         [SerializeField] private IntUnityEvent onEvent = new IntUnityEvent();

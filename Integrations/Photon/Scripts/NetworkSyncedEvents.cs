@@ -39,7 +39,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             gameEventSet[eventType].Invoke(Deserialize(data));
         }
 
-        public void PostEvent<T>(GameEventT<T> e, T data)
+        public void PostEvent<T>(GameEvent<T> e, T data)
         {
 #if PUN_2_OR_NEWER
             if (PhotonNetwork.IsConnected)

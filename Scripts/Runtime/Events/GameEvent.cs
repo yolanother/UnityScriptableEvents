@@ -5,6 +5,7 @@ using UnityEngine;
 namespace DoubTech.ScriptableEvents
 {
     [CreateAssetMenu(fileName="GameEvent", menuName="DoubTech/Game Events/Game Event")]
+    [Serializable]
     public class GameEvent : BaseGameEvent
     {
         private List<GameEventListener> listeners = new List<GameEventListener>();
@@ -12,6 +13,7 @@ namespace DoubTech.ScriptableEvents
 
         protected override void OnInvoke()
         {
+            Debug.Log("Invoke: " + name);
             for (int i = listeners.Count - 1; i >= 0; i--)
             {
                 if(listeners[i]) listeners[i].OnEventRaised();

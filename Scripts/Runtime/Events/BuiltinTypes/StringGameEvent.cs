@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
-    [CreateAssetMenu(fileName = "StringEvent", menuName = "DoubTech/Game Events/String Event")]
+    [CreateAssetMenu(fileName = "StringEvent", menuName = "DoubTech/Game Events/Built In Types/String Event")]
     [Serializable]
-    public class StringGameEvent : GameEventT<string>
+    public class StringGameEvent : GameEvent<string>
     {
 
     }

@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 {
     [Serializable]
-    public class StringGameEventListener : GameEventListenerT<string, StringGameEvent, StringUnityEvent>
+    public class StringGameEventListener : GameEventListener<string, StringGameEvent, StringUnityEvent>
     {
         [SerializeField] private StringGameEvent gameEvent;
         [SerializeField] private StringUnityEvent onEvent = new StringUnityEvent();
