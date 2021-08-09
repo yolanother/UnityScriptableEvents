@@ -12,8 +12,12 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
             PhotonStringWithActorUnityGameEvent>
     {
         [SerializeField] private PhotonStringGameEvent gameEvent;
-        [SerializeField] public int actorNumberFilter = -1;
+
+        [Header("Filters")]
+        [SerializeField] public bool checkActorNumber;
+        [SerializeField] public int actorNumberFilter = 0;
         [SerializeField] public bool isMine = false;
+        [SerializeField] public PhotonView owner;
 
         [SerializeField]
         private PhotonStringUnityGameEvent onEventWithoutActor = new PhotonStringUnityGameEvent();
@@ -29,14 +33,23 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         public override void OnEventRaised(int actor, string text)
         {
 #if PUN_2_OR_NEWER
-            if (isMine)
+            if (owner)
+            {
+                if (owner.OwnerActorNr == actor)
+                {
+                    base.OnEventRaised(actor, text);
+                    onEventWithoutActor.Invoke(text);
+                }
+            }
+            else if (isMine)
             {
                 if (actor == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
                     base.OnEventRaised(actor, text);
                     onEventWithoutActor.Invoke(text);
                 }
-            } else if (actorNumberFilter < 0 || actor == actorNumberFilter)
+            }
+            else if (!checkActorNumber || actor == actorNumberFilter)
             {
 #endif
                 base.OnEventRaised(actor, text);
@@ -54,14 +67,21 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         public override void Invoke(int actor, string text)
         {
 #if PUN_2_OR_NEWER
-            if (isMine)
+            if (owner)
+            {
+                if (owner.OwnerActorNr == actor)
+                {
+                    base.Invoke(actor, text);
+                }
+            }
+            else if (isMine)
             {
                 if (actor == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
                     base.Invoke(actor, text);
                 }
             }
-            else if (actorNumberFilter < 0 || actor == actorNumberFilter)
+            else if (!checkActorNumber || actor == actorNumberFilter)
             {
 #endif
                 base.Invoke(actor, text);
@@ -72,11 +92,12 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
 
         public void ClearActorFilter()
         {
-            actorNumberFilter = -1;
+            checkActorNumber = false;
         }
 
         public void SetActorFilter(int actor)
         {
+            checkActorNumber = true;
             actorNumberFilter = actor;
         }
     }

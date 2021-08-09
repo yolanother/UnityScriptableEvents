@@ -11,8 +11,13 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         PhotonGameEventListener : GameEventListener<int, PhotonGameEvent, PhotonUnityGameEvent>
     {
         [SerializeField] private PhotonGameEvent gameEvent;
-        [SerializeField] public int actorNumberFilter = -1;
+
+        [Header("Filters")]
+        [SerializeField] public bool checkActorNumber;
+        [SerializeField] public int actorNumberFilter = 0;
         [SerializeField] public bool isMine;
+
+        [SerializeField] public PhotonView owner;
 
         [SerializeField] private PhotonUnityGameEvent onEvent = new PhotonUnityGameEvent();
 
@@ -22,14 +27,21 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         public override void OnEventRaised(int actor)
         {
 #if PUN_2_OR_NEWER
-            if (isMine)
+            if (owner)
+            {
+                if (owner.OwnerActorNr == actor)
+                {
+                    base.OnEventRaised(actor);
+                }
+            }
+            else if (isMine)
             {
                 if (actor == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
                     base.OnEventRaised(actor);
                 }
             }
-            else if (actorNumberFilter < 0 || actor == actorNumberFilter)
+            else if (!checkActorNumber || actor == actorNumberFilter)
             {
 #endif
                 base.OnEventRaised(actor);
@@ -41,14 +53,21 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         public override void Invoke(int actor)
         {
 #if PUN_2_OR_NEWER
-            if (isMine)
+            if (owner)
+            {
+                if (owner.OwnerActorNr == actor)
+                {
+                    base.Invoke(actor);
+                }
+            }
+            else if (isMine)
             {
                 if (actor == PhotonNetwork.LocalPlayer.ActorNumber)
                 {
                     base.Invoke(actor);
                 }
             }
-            else if (actorNumberFilter < 0 || actor == actorNumberFilter)
+            else if (!checkActorNumber || actor == actorNumberFilter)
             {
 #endif
                 base.Invoke(actor);

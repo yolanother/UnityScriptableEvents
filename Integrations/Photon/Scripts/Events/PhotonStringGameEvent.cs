@@ -16,7 +16,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
         public void Invoke(string text)
         {
 #if PUN_2_OR_NEWER
-            base.Invoke(PhotonNetwork.LocalPlayer, text);
+            base.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, text);
             #else
             base.Invoke(-1, text);
 #endif
