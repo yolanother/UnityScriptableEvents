@@ -1,6 +1,8 @@
 ﻿using System;
 using DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes;
+#if PUN_2_OR_NEWER
 using Photon.Pun;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,7 +19,11 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         [SerializeField] public bool checkActorNumber;
         [SerializeField] public int actorNumberFilter = 0;
         [SerializeField] public bool isMine = false;
+#if PUN_2_OR_NEWER
         [SerializeField] public PhotonView owner;
+#else
+        [SerializeField] public GameObject owner;
+#endif
 
         [SerializeField]
         private PhotonStringUnityGameEvent onEventWithoutActor = new PhotonStringUnityGameEvent();
@@ -61,7 +67,11 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
 
         public void Invoke(string text)
         {
+#if PUN_2_OR_NEWER
             Invoke(PhotonNetwork.LocalPlayer.ActorNumber, text);
+#else
+            Invoke(-1, text);
+#endif
         }
 
         public override void Invoke(int actor, string text)
