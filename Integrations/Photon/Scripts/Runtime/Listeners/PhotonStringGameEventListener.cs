@@ -39,7 +39,12 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         public override void OnEventRaised(int actor, string text)
         {
 #if PUN_2_OR_NEWER
-            if (owner)
+            if (!PhotonNetwork.IsConnected)
+            {
+                base.OnEventRaised(actor, text);
+                onEventWithoutActor.Invoke(text);
+            }
+            else if (owner)
             {
                 if (owner.OwnerActorNr == actor)
                 {
@@ -77,7 +82,12 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Listeners.BuiltinTypes
         public override void Invoke(int actor, string text)
         {
 #if PUN_2_OR_NEWER
-            if (owner)
+            if (!PhotonNetwork.IsConnected)
+            {
+                base.OnEventRaised(actor, text);
+                onEventWithoutActor.Invoke(text);
+            }
+            else if (owner)
             {
                 if (owner.OwnerActorNr == actor)
                 {

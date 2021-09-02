@@ -1,0 +1,18 @@
+{
+    "name": "DoubTech.ScriptableEvents.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fd6c70425797631499d4d9ed072d4e9c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
