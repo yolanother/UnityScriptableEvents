@@ -52,7 +52,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
 #if PUN_2_OR_NEWER
             if (PhotonNetwork.IsConnected)
             {
-                PhotonView.Get(this).RPC(
+                photonView.RPC(
                     "OnPostEventT",
                     RpcTarget.All,
                     e.name,
@@ -72,7 +72,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
 #if PUN_2_OR_NEWER
             if (PhotonNetwork.IsConnected)
             {
-                PhotonView.Get(this).RPC(
+                photonView.RPC(
                     "OnPostEventT1T2",
                     RpcTarget.All,
                     e.name,
