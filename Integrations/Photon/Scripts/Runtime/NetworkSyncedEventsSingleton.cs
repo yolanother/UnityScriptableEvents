@@ -25,6 +25,11 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             ((NetworkSyncedEvents) Instance).PostEvent(e, data);
         }
 
+        public static void PostEvent<T1, T2>(GameEvent<T1, T2> e, T1 data, T2 data2)
+        {
+            ((NetworkSyncedEvents) Instance).PostEvent(e, data, data2);
+        }
+
         public static void PostEvent(GameEvent e)
         {
             ((NetworkSyncedEvents) Instance).PostEvent(e);

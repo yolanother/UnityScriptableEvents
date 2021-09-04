@@ -1,6 +1,7 @@
 using System;
 #if PUN_2_OR_NEWER
 using Photon.Pun;
+using Photon.Realtime;
 #endif
 using UnityEngine;
 
@@ -14,10 +15,26 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
     [Serializable]
     public class PhotonGameEvent : GameEvent<int>
     {
+        public void InvokeAs(int actorNumber)
+        {
+#if PUN_2_OR_NEWER
+            NetworkSyncedEventsSingleton.PostEvent(this, actorNumber);
+#else
+            base.Invoke(actorNumber);
+#endif
+        }
+
+#if PUN_2_OR_NEWER
+        public void InvokeAs(Player player)
+        {
+            NetworkSyncedEventsSingleton.PostEvent(this, player.ActorNumber);
+        }
+#endif
+
         public void Invoke()
         {
 #if PUN_2_OR_NEWER
-            base.Invoke(PhotonNetwork.LocalPlayer.ActorNumber);
+            NetworkSyncedEventsSingleton.PostEvent(this, PhotonNetwork.LocalPlayer.ActorNumber);
 #else
             base.Invoke(-1);
 #endif

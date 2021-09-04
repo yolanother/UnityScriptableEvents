@@ -39,6 +39,14 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             gameEventSet[eventType].Invoke(Deserialize(data));
         }
 
+#if PUN_2_OR_NEWER
+        [PunRPC]
+#endif
+        public void OnPostEventT1T2(string eventType, byte[] data, byte[] data2)
+        {
+            gameEventSet[eventType].Invoke(Deserialize(data), Deserialize(data2));
+        }
+
         public void PostEvent<T>(GameEvent<T> e, T data)
         {
 #if PUN_2_OR_NEWER
@@ -50,8 +58,33 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
                     e.name,
                     Serialize(data));
             }
+            else
+            {
+                OnPostEventT(e.name, Serialize(data));
+            }
 #else
             OnPostEventT(e.name, Serialize(data));
+#endif
+        }
+
+        public void PostEvent<T1, T2>(GameEvent<T1, T2> e, T1 data, T2 data2)
+        {
+#if PUN_2_OR_NEWER
+            if (PhotonNetwork.IsConnected)
+            {
+                PhotonView.Get(this).RPC(
+                    "OnPostEventT1T2",
+                    RpcTarget.All,
+                    e.name,
+                    Serialize(data),
+                    Serialize(data2));
+            }
+            else
+            {
+                OnPostEventT1T2(e.name, Serialize(data), Serialize(data2));
+            }
+#else
+            OnPostEventT1T2(e.name, Serialize(data));
 #endif
         }
 
@@ -61,6 +94,10 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             if (PhotonNetwork.IsConnected)
             {
                 PhotonView.Get(this).RPC("OnPostEvent", RpcTarget.All, e.name);
+            }
+            else
+            {
+                OnPostEvent(e.name);
             }
 #else
             OnPostEvent(e.name);
@@ -74,6 +111,10 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             {
                 PhotonView.Get(this).RPC("OnPostEvent", RpcTarget.All, e);
             }
+            else
+            {
+                OnPostEvent(e);
+            }
 #else
             OnPostEvent(e);
 #endif
@@ -85,10 +126,14 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
             if (PhotonNetwork.IsConnected)
             {
                 PhotonView.Get(this).RPC(
-                    "OnPostEvent",
+                    "OnPostEventT",
                     RpcTarget.All,
                     e,
                     Serialize(data));
+            }
+            else
+            {
+                OnPostEventT(e, Serialize(data));
             }
 #else
             OnPostEvent(e);
