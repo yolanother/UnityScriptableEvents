@@ -30,7 +30,11 @@ namespace DoubTech.ScriptableEvents
                     }
                 }
 
-                return eventMap[eventName];
+                if (!eventMap.TryGetValue(eventName, out var gameEvent))
+                {
+                    throw new Exception($"{eventName} has not been defined in {name}");
+                }
+                return gameEvent;
             }
         }
 
