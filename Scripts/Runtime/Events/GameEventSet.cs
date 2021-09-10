@@ -21,12 +21,26 @@ namespace DoubTech.ScriptableEvents
                     eventMap = new Dictionary<string, BaseGameEvent>();
                     foreach (var e in propertyEvents)
                     {
-                        eventMap[e.name] = e;
+                        if (null != e)
+                        {
+                            eventMap[e.name] = e;
+                        }
+                        else
+                        {
+                            Debug.LogError(name + " has events that were removed but not cleaned.");
+                        }
                     }
 
                     foreach (var e in events)
                     {
-                        eventMap[e.name] = e;
+                        if (null != e)
+                        {
+                            eventMap[e.name] = e;
+                        }
+                        else
+                        {
+                            Debug.LogError(name + " has events that were removed but not cleaned.");
+                        }
                     }
                 }
 
