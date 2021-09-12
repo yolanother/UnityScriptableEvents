@@ -13,6 +13,8 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 
         protected virtual void OnEnable()
         {
+            if (null == GameEvent)
+                throw new ArgumentException(name + " does not hav a game event set.");
             GameEvent.RegisterGeneralListener(this);
         }
 

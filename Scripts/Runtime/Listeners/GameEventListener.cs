@@ -14,6 +14,8 @@ namespace DoubTech.ScriptableEvents
 
         private void OnEnable()
         {
+            if (null == gameEvent)
+                throw new ArgumentException(name + " does not hav a game event set.");
             gameEvent.RegisterListener(this);
         }
 
