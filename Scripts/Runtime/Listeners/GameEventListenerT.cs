@@ -29,7 +29,14 @@ namespace DoubTech.ScriptableEvents
 
         public virtual void OnEventRaised(T t)
         {
-            OnEvent?.Invoke(t);
+            try
+            {
+                OnEvent?.Invoke(t);
+            }
+            catch (ArgumentException e)
+            {
+                Debug.LogError($"Failed to execute {typeof(T).Name}.{t} on {name}. Illegal argument.");
+            }
         }
     }
 
