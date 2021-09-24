@@ -35,7 +35,7 @@ namespace DoubTech.ScriptableEvents
             }
             catch (ArgumentException e)
             {
-                Debug.LogError($"Failed to execute {typeof(T).Name}.{t} on {name}. Illegal argument.");
+                Debug.LogError($"Failed to execute {GameEvent.name} ({typeof(T).Name} = {t}) on {name}. Illegal argument: {e.Message}");
             }
         }
     }
