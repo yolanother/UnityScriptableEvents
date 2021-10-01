@@ -1,6 +1,7 @@
 using System;
 #if PUN_2_OR_NEWER
 using Photon.Pun;
+using Photon.Realtime;
 #endif
 using UnityEngine;
 
@@ -13,14 +14,55 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
     [Serializable]
     public class PhotonStringGameEvent : GameEvent<int, string>
     {
+        [SerializeField] public bool invokeLocallyIfNotMaster;
+        [SerializeField] public bool onlyPostIfMaster;
+
         public void Invoke(string text)
         {
 #if PUN_2_OR_NEWER
-            NetworkSyncedEventsSingleton.PostEvent(this, PhotonNetwork.LocalPlayer.ActorNumber, text);
-            #else
+            if (invokeLocallyIfNotMaster)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    NetworkSyncedEventsSingleton.PostEvent(this,
+                        PhotonNetwork.LocalPlayer.ActorNumber, text);
+                }
+                else
+                {
+                    OnInvoke(PhotonNetwork.LocalPlayer.ActorNumber, text);
+                }
+            }
+            else if (PhotonNetwork.IsMasterClient || !onlyPostIfMaster)
+            {
+                NetworkSyncedEventsSingleton.PostEvent(this, PhotonNetwork.LocalPlayer.ActorNumber,
+                    text);
+            }
+#else
             base.Invoke(-1, text);
 #endif
         }
+
+#if PUN_2_OR_NEWER
+        public void InvokeAs(Player player, string message)
+        {
+            if (invokeLocallyIfNotMaster)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    NetworkSyncedEventsSingleton.PostEvent(this,
+                        player.ActorNumber, message);
+                }
+                else
+                {
+                    OnInvoke(player.ActorNumber);
+                }
+            }
+            else if (PhotonNetwork.IsMasterClient || !onlyPostIfMaster)
+            {
+                NetworkSyncedEventsSingleton.PostEvent(this, player.ActorNumber, message);
+            }
+        }
+#endif
 
         protected override void OnInvoke(object a)
         {

@@ -15,6 +15,9 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
     [Serializable]
     public class PhotonGameEvent : GameEvent<int>
     {
+        [SerializeField] public bool invokeLocallyIfNotMaster;
+        [SerializeField] public bool onlyPostIfMaster;
+
         public void InvokeAs(int actorNumber)
         {
 #if PUN_2_OR_NEWER
@@ -27,14 +30,43 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
 #if PUN_2_OR_NEWER
         public void InvokeAs(Player player)
         {
-            NetworkSyncedEventsSingleton.PostEvent(this, player.ActorNumber);
+            if (invokeLocallyIfNotMaster)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    NetworkSyncedEventsSingleton.PostEvent(this,
+                        player.ActorNumber);
+                }
+                else
+                {
+                    OnInvoke(player.ActorNumber);
+                }
+            }
+            else if(PhotonNetwork.IsMasterClient || !onlyPostIfMaster)
+            {
+                NetworkSyncedEventsSingleton.PostEvent(this, player.ActorNumber);
+            }
         }
 #endif
 
         public void Invoke()
         {
 #if PUN_2_OR_NEWER
-            NetworkSyncedEventsSingleton.PostEvent(this, PhotonNetwork.LocalPlayer.ActorNumber);
+            if (invokeLocallyIfNotMaster)
+            {
+                if (PhotonNetwork.IsMasterClient) {
+                    NetworkSyncedEventsSingleton.PostEvent(this,
+                        PhotonNetwork.LocalPlayer.ActorNumber);
+                }
+                else
+                {
+                    OnInvoke(PhotonNetwork.LocalPlayer.ActorNumber);
+                }
+            }
+            else if (PhotonNetwork.IsMasterClient || !onlyPostIfMaster)
+            {
+                NetworkSyncedEventsSingleton.PostEvent(this, PhotonNetwork.LocalPlayer.ActorNumber);
+            }
 #else
             base.Invoke(-1);
 #endif
