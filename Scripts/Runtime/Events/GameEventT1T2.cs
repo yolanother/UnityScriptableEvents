@@ -10,7 +10,7 @@ namespace DoubTech.ScriptableEvents
         private List<IGameEventListener<T1, T2>> listeners = new List<IGameEventListener<T1, T2>>();
         private List<Action<T1, T2>> actionListeners = new List<Action<T1, T2>>();
 
-        public void Invoke(T1 a, T2 b)
+        public virtual void Invoke(T1 a, T2 b)
         {
             for (int i = listeners.Count - 1; i >= 0; i--)
             {

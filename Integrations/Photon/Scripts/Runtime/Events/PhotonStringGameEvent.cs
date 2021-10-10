@@ -16,6 +16,32 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
     {
         [SerializeField] public bool invokeLocallyIfNotMaster;
         [SerializeField] public bool onlyPostIfMaster;
+        [SerializeField] public bool onlyTriggerIfMine;
+        [SerializeField] public bool onlyTriggerIfNotMine;
+
+        #if PUN_2_0_OR_NEWER
+        private bool IsMine(int actorNumber)
+        {
+            return (!PhotonNetwork.IsConnected ||
+                    actorNumber == PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+
+        public override void Invoke(int actorNumber, string message)
+        {
+            if (onlyTriggerIfMine)
+            {
+                if (IsMine(actorNumber)) base.Invoke(actorNumber, message);
+            }
+            else if (onlyTriggerIfNotMine)
+            {
+                if (!IsMine(actorNumber)) base.Invoke(actorNumber, message);
+            }
+            else
+            {
+                base.Invoke(actorNumber, message);
+            }
+        }
+        #endif
 
         public void Invoke(string text)
         {
