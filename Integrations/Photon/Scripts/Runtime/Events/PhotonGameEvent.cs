@@ -15,8 +15,13 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
     [Serializable]
     public class PhotonGameEvent : GameEvent<int>
     {
+        [SerializeField] private bool debugPost;
+
+        [Header("Photon Post Conditions")]
         [SerializeField] public bool invokeLocallyIfNotMaster;
         [SerializeField] public bool onlyPostIfMaster;
+
+        [Header("Photon Trigger Conditions")]
         [SerializeField] public bool onlyTriggerIfMine;
         [SerializeField] public bool onlyTriggerIfNotMine;
 
@@ -60,16 +65,28 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    if (debugPost)
+                    {
+                        Debug.Log($"Sending {name} as {player.NickName} [{player.ActorNumber}]");
+                    }
                     NetworkSyncedEventsSingleton.PostEvent(this,
                         player.ActorNumber);
                 }
                 else
                 {
+                    if (debugPost)
+                    {
+                        Debug.Log($"Sending {name} as {player.NickName} [{player.ActorNumber}]");
+                    }
                     OnInvoke(player.ActorNumber);
                 }
             }
             else if(PhotonNetwork.IsMasterClient || !onlyPostIfMaster)
             {
+                if (debugPost)
+                {
+                    Debug.Log($"Sending {name} as {player.NickName} [{player.ActorNumber}]");
+                }
                 NetworkSyncedEventsSingleton.PostEvent(this, player.ActorNumber);
             }
         }
@@ -81,16 +98,28 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
             if (invokeLocallyIfNotMaster)
             {
                 if (PhotonNetwork.IsMasterClient) {
+                    if (debugPost)
+                    {
+                        Debug.Log("Sending " + name);
+                    }
                     NetworkSyncedEventsSingleton.PostEvent(this,
                         PhotonNetwork.LocalPlayer.ActorNumber);
                 }
                 else
                 {
+                    if (debugPost)
+                    {
+                        Debug.Log("Sending " + name);
+                    }
                     OnInvoke(PhotonNetwork.LocalPlayer.ActorNumber);
                 }
             }
             else if (PhotonNetwork.IsMasterClient || !onlyPostIfMaster)
             {
+                if (debugPost)
+                {
+                    Debug.Log("Sending " + name);
+                }
                 NetworkSyncedEventsSingleton.PostEvent(this, PhotonNetwork.LocalPlayer.ActorNumber);
             }
 #else

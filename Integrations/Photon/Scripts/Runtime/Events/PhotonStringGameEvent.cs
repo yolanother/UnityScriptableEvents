@@ -14,8 +14,11 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
     [Serializable]
     public class PhotonStringGameEvent : GameEvent<int, string>
     {
+        [Header("Photon Post Conditions")]
         [SerializeField] public bool invokeLocallyIfNotMaster;
         [SerializeField] public bool onlyPostIfMaster;
+
+        [Header("Photon Trigger Conditions")]
         [SerializeField] public bool onlyTriggerIfMine;
         [SerializeField] public bool onlyTriggerIfNotMine;
 

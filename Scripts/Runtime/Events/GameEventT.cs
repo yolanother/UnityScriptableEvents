@@ -6,11 +6,18 @@ namespace DoubTech.ScriptableEvents
 {
     public class GameEvent<T> : BaseGameEvent
     {
+        [Header("Debugging")]
+        [SerializeField] private bool debugInvoke;
         private List<IGameEventListenerT<T>> listeners = new List<IGameEventListenerT<T>>();
         private List<Action<T>> actionListeners = new List<Action<T>>();
 
         public virtual void Invoke(T a)
         {
+            if (debugInvoke)
+            {
+                Debug.Log("Invoking " + name);
+            }
+
             for (int i = listeners.Count - 1; i >= 0; i--)
             {
                 listeners[i].OnEventRaised(a);
