@@ -7,13 +7,27 @@ namespace DoubTech.ScriptableEvents
 {
     public class GameEvent<T1, T2> : BaseGameEvent
     {
+        [Tooltip("If an event has already been received store the data for that event and when a new register/add is called immediately return that value")]
+        [SerializeField] private bool reusePastEvent;
+
         [Header("Debugging")]
         [SerializeField] private bool debugInvoke;
         private List<IGameEventListener<T1, T2>> listeners = new List<IGameEventListener<T1, T2>>();
         private List<Action<T1, T2>> actionListeners = new List<Action<T1, T2>>();
 
+        private T1 last1;
+        private T2 last2;
+        private bool eventTriggered;
+
         public virtual void Invoke(T1 a, T2 b)
         {
+            if (reusePastEvent)
+            {
+                last1 = a;
+                last2 = b;
+                eventTriggered = true;
+            }
+
             if (debugInvoke)
             {
                 Debug.Log("Invoking " + name);
@@ -39,6 +53,10 @@ namespace DoubTech.ScriptableEvents
             if (allowDuplicate || !listeners.Contains(listener))
             {
                 listeners.Insert(0, listener);
+                if (reusePastEvent && eventTriggered)
+                {
+                    listener.OnEventRaised(last1, last2);
+                }
             }
         }
 
@@ -52,6 +70,10 @@ namespace DoubTech.ScriptableEvents
             if (allowDuplicate || !actionListeners.Contains(listener))
             {
                 actionListeners.Insert(0, listener);
+                if (reusePastEvent && eventTriggered)
+                {
+                    listener.Invoke(last1, last2);
+                }
             }
         }
 

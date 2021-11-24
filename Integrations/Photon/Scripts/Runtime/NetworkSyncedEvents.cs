@@ -84,7 +84,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
                 OnPostEventT1T2(e.name, Serialize(data), Serialize(data2));
             }
 #else
-            OnPostEventT1T2(e.name, Serialize(data));
+            OnPostEventT1T2(e.name, Serialize(data), Serialize(data2));
 #endif
         }
 
