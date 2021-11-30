@@ -43,17 +43,22 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
     public class FormattedStringEvent
     {
         public string format;
+        public bool requireTextForFormat;
         public UnityEvent<string> onEvent = new UnityEvent<string>();
 
         public void Invoke(params string[] text)
         {
             if (null != text && text.Length > 0)
             {
+                bool hasText = false;
                 format = format.Replace("{value}", text[0]);
                 for (int i = 0; i < text.Length; i++)
                 {
                     format = format.Replace("{" + i + "}", text[i]);
+                    if (string.IsNullOrEmpty(text[i])) hasText = true;
                 }
+
+                if (requireTextForFormat && !hasText) format = "";
             }
             else
             {
