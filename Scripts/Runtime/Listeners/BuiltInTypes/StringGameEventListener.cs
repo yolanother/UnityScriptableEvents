@@ -44,7 +44,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
     {
         public string format;
         public bool requireTextForFormat;
-        public UnityEvent<string> onEvent = new UnityEvent<string>();
+        public StringUnityEvent onEvent = new StringUnityEvent();
 
         public void Invoke(params string[] text)
         {
