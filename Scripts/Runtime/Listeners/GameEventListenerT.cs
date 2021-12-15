@@ -9,6 +9,7 @@ namespace DoubTech.ScriptableEvents
     {
         public abstract GAMEEVENT GameEvent { get; }
         public abstract UNITYEVENT OnEvent { get; }
+        [SerializeField] private bool debug;
 
         protected virtual void OnEnable()
         {
@@ -29,6 +30,10 @@ namespace DoubTech.ScriptableEvents
 
         public virtual void OnEventRaised(T t)
         {
+            if (debug)
+            {
+                Debug.Log($"Event {GameEvent.name} raised.\n" + new Exception().StackTrace);
+            }
             try
             {
                 OnEvent?.Invoke(t);

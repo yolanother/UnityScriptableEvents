@@ -9,6 +9,7 @@ namespace DoubTech.ScriptableEvents
     {
         [SerializeField] private GameEvent gameEvent;
         [SerializeField] private UnityEvent response = new UnityEvent();
+        [SerializeField] private bool debug;
 
         public UnityEvent OnEvent => response;
 
@@ -26,6 +27,10 @@ namespace DoubTech.ScriptableEvents
 
         public void OnEventRaised()
         {
+            if (debug)
+            {
+                Debug.Log($"Event {gameEvent.name} raised.\n" + new Exception().StackTrace);
+            }
             response?.Invoke();
         }
 
