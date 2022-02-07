@@ -11,11 +11,20 @@ namespace DoubTech.ScriptableEvents
         public abstract UNITYEVENT OnEvent { get; }
         [SerializeField] private bool debug;
 
+        private IGameEventListenerValidator<T>[] gameEventValidators;
+
+        private ISimpleGameEventValidator[] gameEventValidatorsSimple;
+
+        private IGenericGameEventValidator[] gameEventValidatorsGeneric;
+
         protected virtual void OnEnable()
         {
             if (null == GameEvent)
                 throw new ArgumentException(name + " does not hav a game event set.");
             GameEvent.RegisterListener(this);
+            gameEventValidators = GetComponents<IGameEventListenerValidator<T>>();
+            gameEventValidatorsSimple = GetComponents<ISimpleGameEventValidator>();
+            gameEventValidatorsGeneric = GetComponents<IGenericGameEventValidator>();
         }
 
         protected virtual void OnDisable()
@@ -34,6 +43,52 @@ namespace DoubTech.ScriptableEvents
             {
                 Debug.Log($"Event {GameEvent.name} raised.\n" + new Exception().StackTrace);
             }
+
+            for (int i = 0; i < gameEventValidators.Length; i++)
+            {
+                var validator = gameEventValidators[i];
+                try
+                {
+                    if (!validator.OnValidateEventListener(this, t)) return;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(
+                        $"Failed to execute {validator} ({typeof(T).Name} = {t}) on {name}. Illegal argument: {e.Message}");
+                    throw;
+                }
+            }
+
+            for (int i = 0; i < gameEventValidatorsGeneric.Length; i++)
+            {
+                var validator = gameEventValidatorsGeneric[i];
+                try
+                {
+                    if (!validator.OnValidateEvent(this)) return;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(
+                        $"Failed to execute {validator} on {name}. Illegal argument: {e.Message}");
+                    throw;
+                }
+            }
+
+            for (int i = 0; i < gameEventValidatorsSimple.Length; i++)
+            {
+                var validator = gameEventValidatorsSimple[i];
+                try
+                {
+                    if (!validator.OnValidateEvent()) return;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(
+                        $"Failed to execute {validator} on {name}. Illegal argument: {e.Message}");
+                    throw;
+                }
+            }
+
             try
             {
                 OnEvent?.Invoke(t);
