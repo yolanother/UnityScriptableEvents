@@ -1,15 +1,22 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents
 {
     public class GameEvent<T> : BaseGameEvent
     {
+        [Header("Configuration")]
         [Tooltip(
             "If an event has already been received store the data for that event and when a new register/add is called immediately return that value")]
         [SerializeField]
         private bool reusePastEvent;
+
+        [Header("Global Unity Events")]
+        [Tooltip(
+            "These should only be used to trigger things that do not have a level context for example another GameEvent")]
+        [SerializeField] private UnityEvent<T> globalListeners = new UnityEvent<T>();
 
         [Header("Debugging")]
         [SerializeField] private bool debugInvoke;
@@ -41,6 +48,8 @@ namespace DoubTech.ScriptableEvents
             {
                 actionListeners[i].Invoke(a);
             }
+            
+            globalListeners.Invoke(a);
         }
 
         protected override void OnInvoke(object a)
