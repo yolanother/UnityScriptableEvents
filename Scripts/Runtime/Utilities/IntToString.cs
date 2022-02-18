@@ -23,7 +23,7 @@ namespace DoubTech.ScriptableEvents.Utilities
             }
             else
             {
-                if (null != stringFormat) text = string.Format(stringFormat, value);
+                if (!string.IsNullOrEmpty(stringFormat)) text = string.Format(stringFormat, value);
                 else text = value.ToString();
             }
 
