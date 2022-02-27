@@ -44,7 +44,7 @@ namespace DoubTech.ScriptableEvents
                 Debug.Log($"Event {GameEvent.name} raised.\n" + new Exception().StackTrace);
             }
 
-            for (int i = 0; i < gameEventValidators.Length; i++)
+            for (int i = 0; null != gameEventValidators && i < gameEventValidators.Length; i++)
             {
                 var validator = gameEventValidators[i];
                 try
@@ -59,7 +59,7 @@ namespace DoubTech.ScriptableEvents
                 }
             }
 
-            for (int i = 0; i < gameEventValidatorsGeneric.Length; i++)
+            for (int i = 0; null != gameEventValidatorsGeneric && i < gameEventValidatorsGeneric.Length; i++)
             {
                 var validator = gameEventValidatorsGeneric[i];
                 try
@@ -74,7 +74,7 @@ namespace DoubTech.ScriptableEvents
                 }
             }
 
-            for (int i = 0; i < gameEventValidatorsSimple.Length; i++)
+            for (int i = 0; null != gameEventValidatorsSimple && i < gameEventValidatorsSimple.Length; i++)
             {
                 var validator = gameEventValidatorsSimple[i];
                 try
