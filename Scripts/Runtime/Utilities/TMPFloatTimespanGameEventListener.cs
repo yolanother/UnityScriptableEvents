@@ -7,14 +7,14 @@ using UnityEngine.Events;
 namespace DoubTech.ScriptableEvents.Utilities
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
-    public class TMPIntGameEventListener : MonoBehaviour
+    public class TMPFloatTimespanGameEventListener : MonoBehaviour
     {
         [Header("String Format")]
         [SerializeField] private string numberFormat;
         [SerializeField] private string stringFormat;
 
         [Header("Component Mapping")]
-        [SerializeField] private IntGameEvent intGameEvent;
+        [SerializeField] private FloatGameEvent floatGameEvent;
         [SerializeField] private TextMeshProUGUI textView;
 
         private void OnValidate()
@@ -25,26 +25,26 @@ namespace DoubTech.ScriptableEvents.Utilities
         private void Start()
         {
             if (!textView) textView = GetComponent<TextMeshProUGUI>();
-            intGameEvent.AddListener(SetValue);
+            floatGameEvent.AddListener(SetValue);
         }
 
         private void OnDestroy()
         {
-            intGameEvent.RemoveListener(SetValue);
+            floatGameEvent.RemoveListener(SetValue);
         }
 
-        public void SetValue(int value)
+        public void SetValue(float value)
         {
             string text;
             if (!string.IsNullOrEmpty(numberFormat))
             {
-                if (!string.IsNullOrEmpty(stringFormat)) text = string.Format(stringFormat, value.ToString(numberFormat));
-                else text = value.ToString(numberFormat);
+                if (!string.IsNullOrEmpty(stringFormat)) text = string.Format(stringFormat, TimeSpan.FromSeconds(value).ToString(numberFormat));
+                else text = TimeSpan.FromSeconds(value).ToString(numberFormat);
             }
             else
             {
-                if (!string.IsNullOrEmpty(stringFormat)) text = string.Format(stringFormat, value);
-                else text = value.ToString();
+                if (!string.IsNullOrEmpty(stringFormat)) text = string.Format(stringFormat, TimeSpan.FromSeconds(value).ToString());
+                else text = TimeSpan.FromSeconds(value).ToString();
             }
 
             textView.text = text;

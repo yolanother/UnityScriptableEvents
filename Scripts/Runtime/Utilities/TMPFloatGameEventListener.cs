@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace DoubTech.ScriptableEvents.Utilities
 {
-    [RequireComponent(typeof(Text))]
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class TMPFloatGameEventListener : MonoBehaviour
     {
         [Header("String Format")]
@@ -40,7 +40,7 @@ namespace DoubTech.ScriptableEvents.Utilities
             string text;
             if (!string.IsNullOrEmpty(numberFormat))
             {
-                if (null != stringFormat) text = string.Format(stringFormat, value.ToString(numberFormat));
+                if (!string.IsNullOrEmpty(stringFormat)) text = string.Format(stringFormat, value.ToString(numberFormat));
                 else text = value.ToString(numberFormat);
             }
             else
