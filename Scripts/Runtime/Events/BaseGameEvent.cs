@@ -7,9 +7,9 @@ namespace DoubTech.ScriptableEvents
 {
     public class BaseGameEvent : ScriptableObject
     {
-        private List<GeneralGameEventListener> listeners = new List<GeneralGameEventListener>();
-        private List<GeneralListenerAction> generalListenerActions = new List<GeneralListenerAction>();
-        private List<Action<object[]>> actionListeners = new List<Action<object[]>>();
+        protected List<GeneralGameEventListener> generalGameEventListeners = new List<GeneralGameEventListener>();
+        protected List<GeneralListenerAction> generalListenerActions = new List<GeneralListenerAction>();
+        protected List<Action<object[]>> actionListenersObjects = new List<Action<object[]>>();
 
         public void AddGeneralListener(GeneralListenerAction action, bool allowDuplicate = false)
         {
@@ -27,15 +27,15 @@ namespace DoubTech.ScriptableEvents
         public void RegisterGeneralListener(GeneralGameEventListener listener,
             bool allowDuplicate = false)
         {
-            if (allowDuplicate || !listeners.Contains(listener))
+            if (allowDuplicate || !generalGameEventListeners.Contains(listener))
             {
-                listeners.Insert(0, listener);
+                generalGameEventListeners.Insert(0, listener);
             }
         }
 
         public void UnregisterGeneralListener(GeneralGameEventListener listener)
         {
-            listeners.Remove(listener);
+            generalGameEventListeners.Remove(listener);
         }
 
         public void RegisterGeneralListener(Action<object[]> listener,
@@ -52,22 +52,22 @@ namespace DoubTech.ScriptableEvents
         public void AddGeneralListener(Action<object[]> listener,
             bool allowDuplicate = false)
         {
-            if (allowDuplicate || !actionListeners.Contains(listener))
+            if (allowDuplicate || !actionListenersObjects.Contains(listener))
             {
-                actionListeners.Insert(0, listener);
+                actionListenersObjects.Insert(0, listener);
             }
         }
 
         public void RemoveGeneralListener(Action<object[]> listener)
         {
-            actionListeners.Remove(listener);
+            actionListenersObjects.Remove(listener);
         }
 
         protected virtual void OnInvoked(object[] args)
         {
-            for (int i = listeners.Count - 1; i >= 0; i--)
+            for (int i = generalGameEventListeners.Count - 1; i >= 0; i--)
             {
-                if (listeners[i]) listeners[i].OnEventRaised(args);
+                if (generalGameEventListeners[i]) generalGameEventListeners[i].OnEventRaised(args);
             }
 
             for (int i = generalListenerActions.Count - 1; i >= 0; i--)
@@ -75,9 +75,9 @@ namespace DoubTech.ScriptableEvents
                 generalListenerActions[i].listener.Invoke(generalListenerActions[i], args);
             }
 
-            for (int i = actionListeners.Count - 1; i >= 0; i--)
+            for (int i = actionListenersObjects.Count - 1; i >= 0; i--)
             {
-                actionListeners[i].Invoke(args);
+                actionListenersObjects[i].Invoke(args);
             }
         }
         protected virtual void OnInvoke()

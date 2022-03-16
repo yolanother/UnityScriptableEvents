@@ -8,8 +8,8 @@ namespace DoubTech.ScriptableEvents
     [Serializable]
     public class GameEvent : BaseGameEvent
     {
-        private List<GameEventListener> listeners = new List<GameEventListener>();
-        private List<Action> actionListeners = new List<Action>();
+        protected List<GameEventListener> listeners = new List<GameEventListener>();
+        protected List<Action> actionListeners = new List<Action>();
 
         protected override void OnInvoke()
         {
