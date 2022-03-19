@@ -1,27 +1,69 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents
 {
-    [CreateAssetMenu(fileName="GameEvent", menuName="DoubTech/Game Events/Game Event")]
-    [Serializable]
     public class GameEvent : BaseGameEvent
     {
-        protected List<GameEventListener> listeners = new List<GameEventListener>();
-        protected List<Action> actionListeners = new List<Action>();
+        [Header("Configuration")]
+        [Tooltip(
+            "If an event has already been received store the data for that event and when a new register/add is called immediately return that value")]
+        [SerializeField]
+        private bool reusePastEvent;
 
-        protected override void OnInvoke()
+        [Header("Global Unity Events")]
+        [Tooltip(
+            "These should only be used to trigger things that do not have a level context for example another GameEvent")]
+        [SerializeField] private UnityEvent globalListeners = new UnityEvent();
+
+        [Header("Debugging")]
+        [SerializeField] private bool debugInvoke;
+        private List<IGameEventListener> listeners = new List<IGameEventListener>();
+        private List<Action> actionListeners = new List<Action>();
+
+        private bool eventTriggered;
+
+        public virtual void Invoke()
         {
-            Debug.Log("Invoke: " + name);
+            if (reusePastEvent)
+            {
+                eventTriggered = true;
+            }
+
+            if (debugInvoke)
+            {
+                Debug.Log("Invoking " + name);
+            }
+
             for (int i = listeners.Count - 1; i >= 0; i--)
             {
-                if(listeners[i]) listeners[i].OnEventRaised();
+                listeners[i].OnEventRaised();
             }
 
             for (int i = actionListeners.Count - 1; i >= 0; i--)
             {
                 actionListeners[i].Invoke();
+            }
+            
+            globalListeners.Invoke();
+        }
+
+        protected override void OnInvoke()
+        {
+            Invoke();
+        }
+
+        public virtual void AddListener(Action listener, bool allowDuplicate = false)
+        {
+            if (allowDuplicate || !actionListeners.Contains(listener))
+            {
+                actionListeners.Insert(0, listener);
+                if (reusePastEvent && eventTriggered)
+                {
+                    listener.Invoke();
+                }
             }
         }
 
@@ -35,28 +77,34 @@ namespace DoubTech.ScriptableEvents
             RemoveListener(listener);
         }
 
-        public void AddListener(Action listener, bool allowDuplicate = false)
-        {
-            if (allowDuplicate || !actionListeners.Contains(listener))
-            {
-                actionListeners.Insert(0, listener);
-            }
-        }
-
-        public void RemoveListener(Action listener)
+        public virtual void RemoveListener(Action listener)
         {
             actionListeners.Remove(listener);
         }
 
-        public void RegisterListener(GameEventListener listener, bool allowDuplicate = false)
+        public void RegisterListener(IGameEventListener listener, bool allowDuplicate = false)
+        {
+            AddListener(listener, allowDuplicate);
+        }
+
+        public void UnregisterListener(IGameEventListener listener)
+        {
+            RemoveListener(listener);
+        }
+
+        public virtual void AddListener(IGameEventListener listener, bool allowDuplicate = false)
         {
             if (allowDuplicate || !listeners.Contains(listener))
             {
                 listeners.Insert(0, listener);
+                if (reusePastEvent && eventTriggered)
+                {
+                    listener.OnEventRaised();
+                }
             }
         }
 
-        public void UnregisterListener(GameEventListener listener)
+        public virtual void RemoveListener(IGameEventListener listener)
         {
             listeners.Remove(listener);
         }

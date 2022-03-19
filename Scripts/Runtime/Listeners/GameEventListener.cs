@@ -4,13 +4,11 @@ using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents
 {
-    [Serializable]
-    public class GameEventListener : MonoBehaviour
+    public class GameEventListener : MonoBehaviour, IGameEventListener
     {
-        [SerializeField] private GameEvent gameEvent;
-        [SerializeField] private UnityEvent response = new UnityEvent();
+        public GameEvent gameEvent;
+        public UnityEvent onEvent = new UnityEvent();
         
-        [Header("Debugging")]
         [SerializeField] private bool debug;
 
         private IGameEventListenerValidator[] gameEventValidators;
@@ -19,9 +17,7 @@ namespace DoubTech.ScriptableEvents
 
         private IGenericGameEventValidator[] gameEventValidatorsGeneric;
 
-        public UnityEvent OnEvent => response;
-
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if (null == gameEvent)
                 throw new ArgumentException(name + " does not hav a game event set.");
@@ -31,9 +27,14 @@ namespace DoubTech.ScriptableEvents
             gameEventValidatorsGeneric = GetComponents<IGenericGameEventValidator>();
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             gameEvent.RegisterListener(this);
+        }
+
+        public virtual void Invoke()
+        {
+            gameEvent.Invoke();
         }
 
         public virtual void OnEventRaised()
@@ -43,7 +44,7 @@ namespace DoubTech.ScriptableEvents
                 Debug.Log($"Event {gameEvent.name} raised.\n" + new Exception().StackTrace);
             }
 
-            for (int i = 0; i < gameEventValidators.Length; i++)
+            for (int i = 0; null != gameEventValidators && i < gameEventValidators.Length; i++)
             {
                 var validator = gameEventValidators[i];
                 try
@@ -58,7 +59,7 @@ namespace DoubTech.ScriptableEvents
                 }
             }
 
-            for (int i = 0; i < gameEventValidatorsGeneric.Length; i++)
+            for (int i = 0; null != gameEventValidatorsGeneric && i < gameEventValidatorsGeneric.Length; i++)
             {
                 var validator = gameEventValidatorsGeneric[i];
                 try
@@ -73,7 +74,7 @@ namespace DoubTech.ScriptableEvents
                 }
             }
 
-            for (int i = 0; i < gameEventValidatorsSimple.Length; i++)
+            for (int i = 0; null != gameEventValidatorsSimple && i < gameEventValidatorsSimple.Length; i++)
             {
                 var validator = gameEventValidatorsSimple[i];
                 try
@@ -90,17 +91,17 @@ namespace DoubTech.ScriptableEvents
 
             try
             {
-                OnEvent?.Invoke();
+                onEvent?.Invoke();
             }
             catch (ArgumentException e)
             {
                 Debug.LogError($"Failed to execute {gameEvent.name} on {name}. Illegal argument: {e.Message}");
             }
         }
+    }
 
-        public void Invoke()
-        {
-            gameEvent.Invoke();
-        }
+    public interface IGameEventListener
+    {
+        void OnEventRaised();
     }
 }
