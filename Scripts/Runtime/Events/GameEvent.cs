@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents
 {
+    [CreateAssetMenu(fileName = "GameEvent", menuName = "DoubTech/Game Events/Game Event")]
     public class GameEvent : BaseGameEvent
     {
         [Header("Configuration")]
