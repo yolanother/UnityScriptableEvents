@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes;
+#if PUN_2_OR_NEWER
 using Photon.Realtime;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 
