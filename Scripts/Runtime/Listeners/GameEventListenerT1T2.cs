@@ -30,7 +30,7 @@ namespace DoubTech.ScriptableEvents
 
         protected virtual void OnDisable()
         {
-            GameEvent.RegisterListener(this);
+            GameEvent.UnregisterListener(this);
         }
 
         public virtual void Invoke(T a, T2 b)

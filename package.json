@@ -3,7 +3,7 @@
   "name": "com.doubtech.scriptableevents",
   "displayName": "DoubTech - Scriptable Events",
   "description": "A system for scriptable events based off the 2016 Unite talk",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": {
     "name": "Doubling Technologies",
     "url": "https://github.com/yolanother/UnityOrthoTopdownCamera"

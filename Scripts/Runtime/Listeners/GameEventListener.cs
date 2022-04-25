@@ -8,7 +8,7 @@ namespace DoubTech.ScriptableEvents
     {
         public GameEvent gameEvent;
         public UnityEvent onEvent = new UnityEvent();
-        
+
         [SerializeField] private bool debug;
 
         private IGameEventListenerValidator[] gameEventValidators;
@@ -29,7 +29,7 @@ namespace DoubTech.ScriptableEvents
 
         protected virtual void OnDisable()
         {
-            gameEvent.RegisterListener(this);
+            gameEvent.UnregisterListener(this);
         }
 
         public virtual void Invoke()

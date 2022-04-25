@@ -10,7 +10,7 @@ namespace DoubTech.ScriptableEvents
     {
         public abstract GAMEEVENT GameEvent { get; }
         public abstract UNITYEVENT OnEvent { get; }
-        
+
         [Header("Debugging")]
         [SerializeField] private bool debug;
 
@@ -32,7 +32,7 @@ namespace DoubTech.ScriptableEvents
 
         protected virtual void OnDisable()
         {
-            GameEvent.RegisterListener(this);
+            GameEvent.UnregisterListener(this);
         }
 
         public virtual void Invoke(T a, T2 b, T3 c)
