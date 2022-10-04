@@ -5,7 +5,7 @@ using UnityEngine.Events;
 namespace DoubTech.ScriptableEvents
 {
     public abstract class GameEventListener<T, GAMEEVENT, UNITYEVENT> : MonoBehaviour,
-        IGameEventListenerT<T> where UNITYEVENT : UnityEvent<T> where GAMEEVENT: GameEvent<T>
+        IGameEventListener<T> where UNITYEVENT : UnityEvent<T> where GAMEEVENT: GameEvent<T>
     {
         public abstract GAMEEVENT GameEvent { get; }
         public abstract UNITYEVENT OnEvent { get; }
@@ -100,7 +100,7 @@ namespace DoubTech.ScriptableEvents
         }
     }
 
-    public interface IGameEventListenerT<T>
+    public interface IGameEventListener<T>
     {
         void OnEventRaised(T a);
     }

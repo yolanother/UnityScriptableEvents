@@ -35,9 +35,9 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
             GameEvent.UnregisterGeneralListener(this);
         }
 
-        public virtual void Invoke(object[] args)
+        public virtual void Invoke(params object[] args)
         {
-            GameEvent.Invoke(args);
+            GameEvent.InvokeGeneric(args);
         }
 
         public virtual void OnEventRaised(object[] t)

@@ -28,7 +28,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
 #endif
         public void OnPostEvent(string eventType)
         {
-            gameEventSet[eventType].Invoke();
+            gameEventSet[eventType].InvokeGeneric();
         }
 
 #if PUN_2_OR_NEWER
@@ -36,7 +36,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
 #endif
         public void OnPostEventT(string eventType, byte[] data)
         {
-            gameEventSet[eventType].Invoke(Deserialize(data));
+            gameEventSet[eventType].InvokeGeneric(Deserialize(data));
         }
 
 #if PUN_2_OR_NEWER
@@ -44,7 +44,7 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon
 #endif
         public void OnPostEventT1T2(string eventType, byte[] data, byte[] data2)
         {
-            gameEventSet[eventType].Invoke(Deserialize(data), Deserialize(data2));
+            gameEventSet[eventType].InvokeGeneric(Deserialize(data), Deserialize(data2));
         }
 
         public void PostEvent<T>(GameEvent<T> e, T data)

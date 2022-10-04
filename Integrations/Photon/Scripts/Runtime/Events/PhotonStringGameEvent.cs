@@ -93,12 +93,12 @@ namespace DoubTech.ScriptableEvents.Integrations.Photon.Events.BuiltinTypes
         }
 #endif
 
-        protected override void OnInvoke(object a)
+        protected override void OnInvoke(params object[] a)
         {
 #if PUN_2_OR_NEWER
-            base.Invoke(PhotonNetwork.LocalPlayer.ActorNumber, a);
+            base.InvokeGeneric(PhotonNetwork.LocalPlayer.ActorNumber, a);
 #else
-            base.Invoke(-1, a);
+            base.InvokeGeneric(-1, a[0]);
 #endif
         }
     }

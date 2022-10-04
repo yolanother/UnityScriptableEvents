@@ -5,8 +5,14 @@ using UnityEngine;
 
 namespace DoubTech.ScriptableEvents
 {
-    public class BaseGameEvent : ScriptableObject
+    public abstract class BaseGameEvent : ScriptableObject
     {
+        [Tooltip("If an event has already been received store the data for that event and when a new register/add is called immediately return that value")]
+        [SerializeField] protected bool reusePastEvent;
+
+        [Header("Debugging")]
+        [SerializeField] private bool debugInvoke;
+
         protected List<GeneralGameEventListener> generalGameEventListeners = new List<GeneralGameEventListener>();
         protected List<GeneralListenerAction> generalListenerActions = new List<GeneralListenerAction>();
         protected List<Action<object[]>> actionListenersObjects = new List<Action<object[]>>();
@@ -63,7 +69,7 @@ namespace DoubTech.ScriptableEvents
             actionListenersObjects.Remove(listener);
         }
 
-        protected virtual void OnInvoked(object[] args)
+        protected virtual void OnInvoke(params object[] args)
         {
             for (int i = generalGameEventListeners.Count - 1; i >= 0; i--)
             {
@@ -85,63 +91,9 @@ namespace DoubTech.ScriptableEvents
             throw new ArgumentException("Not implemented");
         }
 
-        protected virtual void OnInvoke(object a)
+        public void InvokeGeneric(params object[] values)
         {
-            throw new ArgumentException("Not implemented");
-        }
-
-        protected virtual void OnInvoke(object a, object b)
-        {
-            throw new ArgumentException("Not implemented");
-        }
-
-        protected virtual void OnInvoke(object a, object b, object c)
-        {
-            throw new ArgumentException("Not implemented");
-        }
-
-        protected virtual void OnInvoke(object a, object b, object c, object d)
-        {
-            throw new ArgumentException("Not implemented");
-        }
-
-        public void Invoke(object[] args)
-        {
-            if (args.Length == 0) Invoke();
-            if (args.Length == 1) Invoke(args[0]);
-            if (args.Length == 2) Invoke(args[0], args[1]);
-            if (args.Length == 3) Invoke(args[0], args[1], args[2]);
-            if (args.Length == 4) Invoke(args[0], args[1], args[2], args[3]);
-        }
-
-        public void Invoke()
-        {
-            OnInvoked(new object[0]);
-            OnInvoke();
-        }
-
-        public void Invoke(object a)
-        {
-            OnInvoked(new object[] { a });
-            OnInvoke(a);
-        }
-
-        public void Invoke(object a, object b)
-        {
-            OnInvoked(new object[] {a, b});
-            OnInvoke(a, b);
-        }
-
-        public void Invoke(object a, object b, object c)
-        {
-            OnInvoked(new object[] { a, b, c });
-            OnInvoke(a, b, c);
-        }
-
-        public void Invoke(object a, object b, object c, object d)
-        {
-            OnInvoked(new object[] {a, b, c, d});
-            OnInvoke(a, b, c, d);
+            OnInvoke(values);
         }
     }
 
