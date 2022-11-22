@@ -48,6 +48,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
 
         public void Invoke(params string[] text)
         {
+            var format = this.format;
             if (null != text && text.Length > 0)
             {
                 bool hasText = false;
@@ -55,7 +56,7 @@ namespace DoubTech.ScriptableEvents.Listeners.BuiltInTypes
                 for (int i = 0; i < text.Length; i++)
                 {
                     format = format.Replace("{" + i + "}", text[i]);
-                    if (string.IsNullOrEmpty(text[i])) hasText = true;
+                    if (!string.IsNullOrEmpty(text[i])) hasText = true;
                 }
 
                 if (requireTextForFormat && !hasText) format = "";
