@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 
 namespace DoubTech.ScriptableEvents
@@ -12,7 +10,7 @@ namespace DoubTech.ScriptableEvents
     {
         protected override int RequiredArgCount => 2;
         
-        public void Invoke(T1 a, T2 b)
+        public virtual void Invoke(T1 a, T2 b)
         {
             InvokeGeneric(a, b);
         }

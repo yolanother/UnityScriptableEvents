@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace DoubTech.ScriptableEvents.Utilities
@@ -26,12 +23,18 @@ namespace DoubTech.ScriptableEvents.Utilities
         
         protected virtual void OnEnable()
         {
-            _eventReceivers?.ForEach(a => a.Register());
+            foreach (var receiver in _eventReceivers)
+            {
+                receiver.Register();
+            }
         }
 
         protected  virtual void OnDisable()
         {
-            _eventReceivers?.ForEach(a => a.Unregister());
+            foreach (var receiver in _eventReceivers)
+            {
+                receiver.Unregister();
+            }
         }
     }
 }

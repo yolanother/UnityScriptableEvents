@@ -10,7 +10,7 @@ namespace DoubTech.ScriptableEvents
     {
         protected override int RequiredArgCount => 1;
 
-        public void Invoke(T1 a)
+        public virtual void Invoke(T1 a)
         {
             InvokeGeneric(a);
         }
