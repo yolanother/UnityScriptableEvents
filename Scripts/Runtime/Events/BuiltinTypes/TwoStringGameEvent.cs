@@ -5,7 +5,7 @@ namespace DoubTech.ScriptableEvents.BuiltinTypes
 {
     [CreateAssetMenu(fileName = "TwoStringEvent", menuName = "DoubTech/Game Events/Built In Types/Two String Event")]
     [Serializable]
-    public class TwotringGameEvent : GameEvent<string, string, string>
+    public class TwoStringGameEvent : GameEvent<string, string>
     {
 
     }
