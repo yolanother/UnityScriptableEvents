@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using DoubTech.ScriptableEvents.Listeners.BuiltInTypes;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace DoubTech.ScriptableEvents
@@ -13,16 +17,44 @@ namespace DoubTech.ScriptableEvents
         [Header("Debugging")]
         [SerializeField] private bool debugInvoke;
 
+#if ODIN_INSPECTOR
+        [ReadOnly]
+        [ShowInInspector]
+#endif
+        protected bool eventTriggered;
+
         protected List<GeneralGameEventListener> generalGameEventListeners = new List<GeneralGameEventListener>();
         protected List<GeneralListenerAction> generalListenerActions = new List<GeneralListenerAction>();
         protected List<Action<object[]>> actionListenersObjects = new List<Action<object[]>>();
+        
+        /// <summary>
+        /// Clears the event triggered flag and any associated data that may have come with that event.
+        /// </summary>
+        public virtual void ClearData()
+        {
+            eventTriggered = false;
+        }
 
         public void AddGeneralListener(GeneralListenerAction action, bool allowDuplicate = false)
         {
             if (allowDuplicate || !generalListenerActions.Contains(action))
             {
                 generalListenerActions.Insert(0, action);
+                if(reusePastEvent && eventTriggered)
+                {
+                    OnReInvokeGeneric(action);
+                }
             }
+        }
+
+        protected virtual void OnReInvokeGeneric(GeneralGameEventListener listener)
+        {
+            listener.Invoke(Array.Empty<object>());
+        }
+
+        protected virtual void OnReInvokeGeneric(GeneralListenerAction action)
+        {
+            action.listener.Invoke(action, Array.Empty<object>());
         }
 
         public void RemoveGeneralListener(GeneralListenerAction listener)
@@ -36,6 +68,10 @@ namespace DoubTech.ScriptableEvents
             if (allowDuplicate || !generalGameEventListeners.Contains(listener))
             {
                 generalGameEventListeners.Insert(0, listener);
+                if (reusePastEvent && eventTriggered)
+                {
+                    OnReInvokeGeneric(listener);
+                }
             }
         }
 
@@ -71,6 +107,7 @@ namespace DoubTech.ScriptableEvents
 
         protected virtual void OnInvoke(params object[] args)
         {
+            eventTriggered = true;
             for (int i = generalGameEventListeners.Count - 1; i >= 0; i--)
             {
                 if (generalGameEventListeners[i]) generalGameEventListeners[i].OnEventRaised(args);

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using DoubTech.ScriptableEvents.Listeners.BuiltInTypes;
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,13 +21,16 @@ namespace DoubTech.ScriptableEvents
 
         protected abstract int RequiredArgCount { get; }
         
+        #if ODIN_INSPECTOR
+        [Header("Debug")]
+        [ReadOnly]
+        [ShowInInspector]
+        #endif
         private object[] last;
-        private bool eventTriggered;
-
-
-        public void ClearData()
+        
+        public override void ClearData()
         {
-            eventTriggered = false;
+            base.ClearData();
             last = null;
         }
         
@@ -34,6 +40,7 @@ namespace DoubTech.ScriptableEvents
             {
                 throw new ArgumentException($"GameEvent requires {RequiredArgCount} arguments. Received: {args}");
             }
+            last = args;
             
             base.OnInvoke(args);
 
@@ -65,6 +72,16 @@ namespace DoubTech.ScriptableEvents
                     onEventRaised.Invoke(listener, last);
                 }
             }
+        }
+
+        protected override void OnReInvokeGeneric(GeneralGameEventListener listener)
+        {
+            listener.Invoke(last);
+        }
+
+        protected override void OnReInvokeGeneric(GeneralListenerAction action)
+        {
+            action.listener.Invoke(action, last);
         }
 
         public void UnregisterListener(TYPED_GAME_EVENT_LISTENER listener)
