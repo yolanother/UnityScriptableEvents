@@ -66,7 +66,7 @@ namespace DoubTech.ScriptableEvents
             if (allowDuplicate || !listeners.Contains(listener))
             {
                 listeners.Insert(0, listener);
-                if (reusePastEvent && eventTriggered)
+                if (reusePastEvent && eventTriggered && last != null)
                 {
                     var onEventRaised = typeof(TYPED_GAME_EVENT_LISTENER).GetMethod("OnEventRaised");
                     onEventRaised.Invoke(listener, last);
